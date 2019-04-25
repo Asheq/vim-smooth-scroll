@@ -1,5 +1,8 @@
 # vim-smooth-scroll
 
+## Note
+This repo was originally forked from [terryma/vim-smooth-scroll](https://github.com/terryma/vim-smooth-scroll) which currently appears to be unmaintained. This version inclues some small changes and improvements. For example, it turns the cursorline off during smooth scrolling to prevent slow redrawing.
+
 ## About
 [vim-smooth-scroll] makes scrolling in Vim nice and smooth. Find yourself completely lost every time you use ```Ctrl-f``` or  ```Ctrl-b```? You might want to give this plugin a try.
 

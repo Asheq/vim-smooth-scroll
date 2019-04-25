@@ -1,10 +1,10 @@
 " ==============================================================================
 " File: smooth_scroll.vim
-" Author: Terry Ma
+" Original Author: Terry Ma
+" Maintainer: Asheq Imran
 " Description: Scroll the screen smoothly to retain better context. Useful for
 " replacing Vim's default scrolling behavior with CTRL-D, CTRL-U, CTRL-B, and
 " CTRL-F
-" Last Modified: April 04, 2013
 " ==============================================================================
 
 let s:save_cpo = &cpo
@@ -15,12 +15,12 @@ set cpo&vim
 " ==============================================================================
 
 " Scroll the screen up
-function! smooth_scroll#up(dist, duration, speed)
+function! smooth_scroll#up(dist, duration, speed) abort
   call s:smooth_scroll('u', a:dist, a:duration, a:speed)
 endfunction
 
 " Scroll the screen down
-function! smooth_scroll#down(dist, duration, speed)
+function! smooth_scroll#down(dist, duration, speed) abort
   call s:smooth_scroll('d', a:dist, a:duration, a:speed)
 endfunction
 
@@ -36,13 +36,23 @@ endfunction
 " itself by Vim takes longer
 " speed: Scrolling speed, or the number of lines to scroll during each scrolling
 " animation
-function! s:smooth_scroll(dir, dist, duration, speed)
+function! s:smooth_scroll(dir, dist, duration, speed) abort
+  " Turn off cursorline
+  set nocursorline
+
+  let last_line_in_buffer = line('$')
   for i in range(a:dist/a:speed)
     let start = reltime()
     if a:dir ==# 'd'
-      exec "normal! ".a:speed."\<C-e>".a:speed."j"
+      if line('w$') >= last_line_in_buffer
+        break
+      endif
+      exec "normal! ".a:speed."\<C-e>"
     else
-      exec "normal! ".a:speed."\<C-y>".a:speed."k"
+      if line('w0') == 1
+        break
+      endif
+      exec "normal! ".a:speed."\<C-y>"
     endif
     redraw
     let elapsed = s:get_ms_since(start)
@@ -51,10 +61,12 @@ function! s:smooth_scroll(dir, dist, duration, speed)
       exec "sleep ".snooze."m"
     endif
   endfor
+
+  " Turn on cursorline
+  set cursorline
 endfunction
 
-function! s:get_ms_since(time)
+function! s:get_ms_since(time) abort
   let cost = split(reltimestr(reltime(a:time)), '\.')
   return str2nr(cost[0])*1000 + str2nr(cost[1])/1000.0
 endfunction
-
