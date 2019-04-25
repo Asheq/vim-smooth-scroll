@@ -25,7 +25,7 @@ noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 - __Duration__: This is how long you want each frame of the scrolling animation to last in __milliseconds__. Each frame will take _at least_ this amount of time. It could take more if Vim's scrolling itself is slow
 - __Speed__: This is how many lines to scroll during each frame of the scrolling animation
 
-[vim-smooth-scroll]:http://github.com/terryma/vim-smooth-scroll
+[vim-smooth-scroll]:http://github.com/Asheq/vim-smooth-scroll
 [Pathogen]:http://github.com/tpope/vim-pathogen
 [Vundle]:http://github.com/gmarik/vundle
 [Neobundle]:http://github.com/Shougo/neobundle.vim
